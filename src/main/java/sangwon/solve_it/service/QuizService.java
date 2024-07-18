@@ -14,6 +14,7 @@ import sangwon.solve_it.repository.entity.Question;
 import sangwon.solve_it.repository.entity.Quiz;
 import sangwon.solve_it.repository.entity.User;
 import sangwon.solve_it.type.QuestionType;
+import sangwon.solve_it.validator.ListNumberingValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class QuizService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저아이디입니다."));
 
+        ListNumberingValidator.validateListNumbering(quizUploadRequest.getQuestionList());
         Quiz quiz = Quiz.builder()
                 .title(quizUploadRequest.getTitle())
                 .content(quizUploadRequest.getContent())
@@ -36,6 +38,9 @@ public class QuizService {
         quizRepository.save(quiz);
 
         quizUploadRequest.getQuestionList().forEach((questionUploadDto) -> {
+
+            if(questionUploadDto.getType() == QuestionType.MULTI_CHOICE)
+                ListNumberingValidator.validateListNumbering(questionUploadDto.getChoiceList());
             Question question = Question.builder()
                     .quiz(quiz)
                     .content(questionUploadDto.getContent())

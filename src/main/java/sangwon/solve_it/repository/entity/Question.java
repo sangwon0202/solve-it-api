@@ -16,6 +16,7 @@ public class Question {
     @Column(name="content")
     private String content;
     @Column(name="type")
+    @Enumerated(EnumType.STRING)
     private QuestionType type;
     @Column(name="number")
     private int number;
