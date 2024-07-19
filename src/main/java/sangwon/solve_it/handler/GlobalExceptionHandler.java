@@ -10,11 +10,10 @@ import sangwon.solve_it.exception.CustomException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
         @ExceptionHandler(CustomException.class)
         public ResponseEntity<String> handleCustomException(CustomException customException) {
             log.info("customException: " + customException.getMessage());
-            return new ResponseEntity<String>(customException.getMessage(), customException.getHttpStatus());
+            return new ResponseEntity<>(customException.getMessage(), customException.getHttpStatus());
         }
 
 }

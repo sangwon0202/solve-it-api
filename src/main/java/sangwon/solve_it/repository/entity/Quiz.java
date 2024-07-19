@@ -3,6 +3,9 @@ package sangwon.solve_it.repository.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -20,11 +23,14 @@ public class Quiz {
     @ManyToOne
     @JoinColumn(name="writer_id")
     private User user;
+    @OneToMany(mappedBy = "quiz", fetch=FetchType.LAZY)
+    private List<Question> questions;
 
     @Builder
     public Quiz(String content, String title, User user) {
         this.content = content;
         this.title = title;
         this.user = user;
+        this.questions = new ArrayList<>();
     }
 }

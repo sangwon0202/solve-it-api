@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import sangwon.solve_it.type.QuestionType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -25,7 +28,8 @@ public class Question {
     @ManyToOne
     @JoinColumn(name="quiz_id")
     private Quiz quiz;
-
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<Choice> choices;
     @Builder
     public Question(String content, QuestionType type, int number, String answer, Quiz quiz) {
         this.content = content;
@@ -33,5 +37,6 @@ public class Question {
         this.number = number;
         this.answer = answer;
         this.quiz = quiz;
+        this.choices = new ArrayList<>();
     }
 }
