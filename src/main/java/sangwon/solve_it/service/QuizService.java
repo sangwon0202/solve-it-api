@@ -1,11 +1,14 @@
 package sangwon.solve_it.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sangwon.solve_it.dto.ChoiceDto;
 import sangwon.solve_it.dto.QuizDto;
+import sangwon.solve_it.dto.QuizRowDto;
 import sangwon.solve_it.dto.QuizUploadDto;
 import sangwon.solve_it.exception.CustomException;
 import sangwon.solve_it.repository.ChoiceRepository;
@@ -55,6 +58,10 @@ public class QuizService {
     public QuizDto getQuiz(int quizId) {
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new CustomException("존재하지 않는 퀴즈입니다.", HttpStatus.BAD_REQUEST));
         return new QuizDto(quiz);
+    }
+
+    public Page<QuizRowDto> getQuizPage(Pageable pageable) {
+        return quizRepository.findAll(pageable).map(QuizRowDto::new);
     }
 
 
