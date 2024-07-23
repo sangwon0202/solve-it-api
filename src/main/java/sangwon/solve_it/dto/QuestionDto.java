@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import sangwon.solve_it.repository.entity.Question;
 import sangwon.solve_it.repository.entity.Quiz;
 import sangwon.solve_it.type.QuestionType;
@@ -14,6 +15,7 @@ import sangwon.solve_it.util.NumberedListUtil;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class QuestionDto implements Numbered {
     @Size(min = 1, max = 100)
     private String content;

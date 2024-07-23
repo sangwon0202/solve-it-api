@@ -35,7 +35,7 @@ public class QuizService {
     @Transactional
     public void uploadQuiz(String userId, QuizUploadDto quizUploadDto) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저아이디입니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException("존재하지 않는 유저아이디입니다.", HttpStatus.BAD_REQUEST));
 
         NumberedListUtil.validateListNumbering(quizUploadDto.getQuestionList());
         Quiz quiz = quizUploadDto.toEntity(user);
@@ -62,6 +62,11 @@ public class QuizService {
 
     public Page<QuizRowDto> getQuizPage(Pageable pageable) {
         return quizRepository.findAll(pageable).map(QuizRowDto::new);
+    }
+
+    public void deleteQuiz(int quizId) {
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new CustomException("존재하지 않는 퀴즈입니다.", HttpStatus.BAD_REQUEST));
+        quizRepository.delete(quiz);
     }
 
 

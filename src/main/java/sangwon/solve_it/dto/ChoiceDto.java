@@ -3,11 +3,13 @@ package sangwon.solve_it.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import sangwon.solve_it.repository.entity.Choice;
 import sangwon.solve_it.repository.entity.Question;
 import sangwon.solve_it.util.Numbered;
 
 @Data
+@NoArgsConstructor
 public class ChoiceDto implements Numbered {
     @Size(min=1, max=100)
     private String content;

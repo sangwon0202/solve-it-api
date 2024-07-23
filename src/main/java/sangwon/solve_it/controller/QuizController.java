@@ -1,8 +1,6 @@
 package sangwon.solve_it.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
@@ -20,9 +18,8 @@ import sangwon.solve_it.service.QuizService;
 public class QuizController {
     private final QuizService quizService;
 
-    @PostMapping("/quizzes")
-    public ResponseEntity<Void> uploadQuiz(@RequestBody @Validated QuizUploadDto quizUploadDto) {
-        String userId = "sangwon";
+    @PostMapping("/users/{userId}/quizzes")
+    public ResponseEntity<Void> uploadQuiz(@RequestBody @Validated QuizUploadDto quizUploadDto, @PathVariable("userId") String userId) {
         quizService.uploadQuiz(userId, quizUploadDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -37,6 +34,11 @@ public class QuizController {
     public ResponseEntity<PagedModel<QuizRowDto>> getQuizList(@PageableDefault(size = 10) final Pageable pageable) {
         PagedModel<QuizRowDto> pagedModel = new PagedModel<QuizRowDto>(quizService.getQuizPage(pageable));
         return new ResponseEntity<>(pagedModel, HttpStatus.OK);
+    }
 
+    @DeleteMapping("/quizzes/{quizId}")
+    public ResponseEntity<Void> deleteQuiz(@PathVariable("quizId") int quizId) {
+        quizService.deleteQuiz(quizId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
